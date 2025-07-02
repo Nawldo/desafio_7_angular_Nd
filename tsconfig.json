@@ -1,9 +1,14 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./src", // <-- Adicione esta linha! Define a base para a resolução de módulos como a pasta 'src'
+    "paths": { // <-- Adicione esta seção!
+      "@app/*": ["app/*"], // Mapeia '@app/' para 'src/app/'
+      "@shared/*": ["app/shared/*"], // Mapeia '@shared/' para 'src/app/shared/'
+      "@models/*": ["app/models/*"] // Mapeia '@models/' para 'src/app/models/'
+    },
     "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true, // Adicionei esta linha para boa prática
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -13,10 +18,14 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // Mudei para 'node' que é mais comum com Angular
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "lib": [ // Adicionei 'lib' para garantir tipos globais
+      "es2022",
+      "dom"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
