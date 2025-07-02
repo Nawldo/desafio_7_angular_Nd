@@ -1,0 +1,13 @@
+/* Estilos para a página Dashboard */
+.dashboard-page-wrapper {
+  min-height: 100vh; /* Ocupa a altura total da viewport */
+  background-color: #f0f2f5; /* Um cinza claro suave para o fundo */
+  padding-top: 20px; /* Espaço no topo */
+  padding-bottom: 20px; /* Espaço na base */
+}
+
+.card {
+  margin-bottom: 20px; /* Espaçamento entre os cartões */
+  border-radius: 8px; /* Cantos arredondados */
+  border: none; /* Remove bordas padrão */
+}

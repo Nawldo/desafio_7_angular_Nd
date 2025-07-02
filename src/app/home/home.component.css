@@ -1,0 +1,27 @@
+/* Estilos para a página Home */
+.home-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Garante que ocupa a altura total da tela */
+  width: 100vw; /* Ocupa 100% da largura da viewport */
+
+  background-color: #e9ecef; /* Um fundo cinza claro para a Home */
+
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.card {
+  max-width: 500px; /* Largura máxima para o cartão de boas-vindas */
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95); /* Fundo branco semi-transparente */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.card-body {
+    padding: 30px;
+}

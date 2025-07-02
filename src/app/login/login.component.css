@@ -1,0 +1,48 @@
+/* Estilos para a página de login */
+:host {
+  display: flex; /* Habilita o flexbox para centralizar */
+  flex-direction: column; /* Organiza os itens em coluna */
+  align-items: center; /* Centraliza horizontalmente */
+  justify-content: center; /* Centraliza verticalmente */
+  min-height: 100vh; /* Ocupa no mínimo 100% da altura da viewport */
+  width: 100vw; /* Ocupa 100% da largura da viewport */
+
+  background-color: #f8f9fa; /* Um fundo claro para a página, sem imagem */
+
+  padding: 20px;
+  box-sizing: border-box; /* Inclui padding e border na largura/altura total */
+}
+
+/* Estilo para o container do formulário */
+.container {
+  background-color: rgba(255, 255, 255, 0.95); /* Fundo branco semi-transparente mais opaco */
+  padding: 30px; /* Espaçamento interno */
+  border-radius: 10px; /* Cantos arredondados */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra mais visível para destacar */
+  max-width: 400px; /* Largura máxima do formulário para não esticar demais */
+  width: 100%; /* Garante que ele ocupe 100% da largura disponível até o max-width */
+  z-index: 1; /* Garante que o formulário fique acima de outros elementos */
+}
+
+/* Estilos específicos para o cabeçalho do cartão */
+.card-header {
+  background-color: #007bff; /* Cor primária do Bootstrap (azul) */
+  color: white; /* Texto branco */
+  border-radius: 5px 5px 0 0; /* Cantos superiores arredondados */
+  padding: 15px; /* Espaçamento interno */
+  margin-bottom: 15px; /* Margem abaixo do cabeçalho */
+}
+
+/* Estilos para o corpo do cartão */
+.card-body {
+  padding: 20px; /* Espaçamento interno */
+}
+
+/* Ajustes para elementos do formulário (opcional, mas melhora o visual) */
+.form-label {
+    font-weight: bold; /* Deixa os rótulos em negrito */
+}
+
+.alert {
+    text-align: center; /* Centraliza mensagens de erro/sucesso */
+}

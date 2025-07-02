@@ -1,0 +1,26 @@
+<div class="login-page-wrapper">
+  <div class="card">
+    <div class="card-header text-center">
+      <h3>Login - FORD</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+          {{ errorMessage }}
+        </div>
+
+        <div class="mb-3">
+          <label for="username" class="form-label">Usuário:</label>
+          <input type="text" id="username" formControlName="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Senha:</label>
+          <input type="password" id="password" formControlName="password" class="form-control" required>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
