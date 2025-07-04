@@ -1,84 +1,121 @@
-    // src/app/dashboard/dashboard.component.ts
-    import { Component, OnInit } from '@angular/core';
-    import { FormControl } from '@angular/forms';
-    import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
-    import { of } from 'rxjs';
+// src/app/dashboard/dashboard.component.ts
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
-    // ATENÇÃO: Mudei os caminhos para usar os aliases definidos em tsconfig.json
-    import { VehicleService } from '@shared/vehicle.service'; // Use o alias @shared
-    import { Veiculo, VeiculosAPI } from '@models/veiculo.model'; // Use o alias @models
+import { VehicleService } from '@shared/vehicle.service';
+// Importe Veiculo e VehicleData do seu arquivo de modelo
+import { Veiculo, VehicleData } from '@models/veiculo.model'; // Certifique-se que VehicleData está aqui
 
-    @Component({
-      selector: 'app-dashboard',
-      standalone: false, // Mantenha como false
-      templateUrl: './dashboard.component.html',
-      styleUrls: ['./dashboard.component.css'] // Use 'styleUrls' (plural)
-    })
-    export class DashboardComponent implements OnInit {
-      searchModelControl = new FormControl('');
-      selectedVehicle: Veiculo | null = null;
-      totalSales: number | string = 0;
-      connectedVehicles: number | string = 0;
-      softwareUpdates: number | string = 0;
-      vehicleImageUrl: string = 'https://via.placeholder.com/600x300?text=Selecione+um+Veiculo';
+@Component({
+  selector: 'app-dashboard',
+  standalone: false,
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
+})
+export class DashboardComponent implements OnInit {
+  searchModelControl = new FormControl('');
+  searchVinControl = new FormControl(''); // <-- ESTA LINHA PRECISA ESTAR AQUI
 
-      constructor(private vehicleService: VehicleService) { }
+  selectedVehicle: Veiculo | null = null;
+  vehicleDataDetails: VehicleData | null = null; // <-- ESTA LINHA PRECISA ESTAR AQUI
 
-      ngOnInit(): void {
-        this.searchModelControl.valueChanges.pipe(
-          debounceTime(300),
-          distinctUntilChanged(),
-          switchMap(modelName => {
-            if (modelName) {
-              return of({ vehicles: [{
-                id: 1,
-                vehicle: modelName as string,
-                volumetotal: 12345,
-                connected: 6789,
-                softwareUpdates: 1234
-              }]} as VeiculosAPI);
-            } else {
-              return of({ vehicles: [] } as VeiculosAPI);
-            }
-          })
-        ).subscribe(data => {
-          if (data.vehicles && data.vehicles.length > 0) {
-            this.selectedVehicle = data.vehicles[0];
-            this.updateVehicleDisplay(this.selectedVehicle);
-          } else {
-            this.selectedVehicle = null;
-            this.resetVehicleDisplay();
-          }
-        });
+  totalSales: number | string = 0;
+  connectedVehicles: number | string = 0;
+  softwareUpdates: number | string = 0;
+  vehicleImageUrl: string = 'assets/imagens/ford-nald.jpg'; // Caminho para sua imagem de placeholder
 
-        this.loadInitialMockData();
-      }
+  constructor(private vehicleService: VehicleService) { }
 
-      updateVehicleDisplay(vehicle: Veiculo): void {
-        this.totalSales = vehicle.volumetotal;
-        this.connectedVehicles = vehicle.connected;
-        this.softwareUpdates = vehicle.softwareUpdates;
-        this.vehicleImageUrl = `https://via.placeholder.com/600x300?text=${vehicle.vehicle.replace(/ /g, '+')}`;
-      }
-
-      resetVehicleDisplay(): void {
-        this.totalSales = 0;
-        this.connectedVehicles = 0;
-        this.softwareUpdates = 0;
-        this.vehicleImageUrl = 'https://via.placeholder.com/600x300?text=Selecione+um+Veiculo';
+  ngOnInit(): void {
+    // Lógica para busca por modelo de veículo (já existente e funcionando)
+    this.searchModelControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(modelName => {
+        if (modelName && modelName.trim() !== '') {
+          return this.vehicleService.getVehicles().pipe(
+            map(vehicles => {
+              const filteredVehicles = vehicles.filter((v: Veiculo) =>
+                v.vehicle.toLowerCase().includes(modelName.toLowerCase())
+              );
+              return filteredVehicles.length > 0 ? filteredVehicles[0] : null;
+            }),
+            catchError(error => {
+              console.error('Erro ao buscar veículos na API:', error);
+              return of(null);
+            })
+          );
+        } else {
+          return of(null);
+        }
+      })
+    ).subscribe(selectedVehicleResult => {
+      if (selectedVehicleResult) {
+        this.selectedVehicle = selectedVehicleResult;
+        this.updateVehicleDisplay(this.selectedVehicle as Veiculo);
+      } else {
         this.selectedVehicle = null;
+        this.resetVehicleDisplay();
       }
+    });
 
-      loadInitialMockData(): void {
-        const mockVehicle: Veiculo = {
-          id: 1,
-          vehicle: 'Ford Fiesta',
-          volumetotal: 150000,
-          connected: 120000,
-          softwareUpdates: 95000
-        };
-        this.selectedVehicle = mockVehicle;
-        this.updateVehicleDisplay(mockVehicle);
+    // --- NOVA LÓGICA: Busca por VIN para a Tabela ---
+    this.searchVinControl.valueChanges.pipe( // <-- ESTE BLOCO PRECISA ESTAR AQUI
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap(vinCode => {
+        if (vinCode && vinCode.trim() !== '') {
+          return this.vehicleService.getVehicleDataByVin(vinCode as string).pipe(
+            catchError(error => {
+              console.error('Erro ao buscar dados do VIN na API:', error);
+              this.vehicleDataDetails = null;
+              return of(null);
+            })
+          );
+        } else {
+          this.vehicleDataDetails = null;
+          return of(null);
+        }
+      })
+    ).subscribe(vehicleDataResult => {
+      if (vehicleDataResult) {
+        this.vehicleDataDetails = vehicleDataResult;
+      } else {
+        this.vehicleDataDetails = null;
       }
-    }
-    
+    });
+    // --- FIM DA NOVA LÓGICA ---
+  }
+
+  updateVehicleDisplay(vehicle: Veiculo): void {
+    this.totalSales = vehicle.volumetotal;
+    this.connectedVehicles = vehicle.connected;
+    this.softwareUpdates = vehicle.softwareUpdates;
+    this.vehicleImageUrl = vehicle.img;
+  }
+
+  resetVehicleDisplay(): void {
+    this.totalSales = 0;
+    this.connectedVehicles = 0;
+    this.softwareUpdates = 0;
+    this.vehicleImageUrl = 'assets/imagens/ford-nald.jpg';
+    this.selectedVehicle = null;
+    this.vehicleDataDetails = null; // <-- ESTA LINHA PRECISA ESTAR AQUI
+  }
+
+  loadInitialMockData(): void {
+    const mockVehicle: Veiculo = {
+      id: 1,
+      vehicle: 'Ford Fiesta',
+      volumetotal: 150000,
+      connected: 120000,
+      softwareUpdates: 95000,
+      vin: 'MOCKVIN123456789',
+      img: 'http://localhost:3000/fiesta.png'
+    };
+    this.selectedVehicle = mockVehicle;
+    this.updateVehicleDisplay(mockVehicle);
+  }
+}

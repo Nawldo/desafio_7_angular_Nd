@@ -9,7 +9,7 @@
             <h5 class="card-title text-center">Buscar Veículo por Modelo</h5>
             <div class="input-group">
               <input type="text" [formControl]="searchModelControl" class="form-control" placeholder="Digite o modelo do veículo...">
-              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -55,32 +55,40 @@
           <div class="card-body">
             <h5 class="card-title text-center">Detalhes do Veículo</h5>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Buscar por código do veículo...">
-              <button class="btn btn-outline-secondary" type="button">Buscar</button>
+              <!-- AQUI: Conecte o input ao searchVinControl e adicione (keyup) para busca reativa -->
+              <input type="text" [formControl]="searchVinControl" class="form-control" placeholder="Buscar por código do veículo...">
+              <!-- O botão de busca não é mais necessário se usarmos busca reativa com RxJS -->
+              <!-- <button class="btn btn-outline-secondary" type="button">Buscar</button> -->
             </div>
             <div class="table-responsive">
-              <table class="table table-striped table-hover">
+              <!-- AQUI: Exiba a tabela apenas se houver dados de VehicleData -->
+              <table *ngIf="vehicleDataDetails" class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Código</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Cor</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Odômetro</th>
+                    <th scope="col">Nível Combustível</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Última Att.</th>
+                    <th scope="col">Latitude</th>
+                    <th scope="col">Longitude</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <!-- AQUI: Use *ngIf para exibir a linha apenas se houver vehicleDataDetails -->
                   <tr>
-                    <th scope="row">1</th>
-                    <td>2FRHDUYS2Y63NHD22454</td>
-                    <td>Sedan</td>
-                    <td>Azul</td>
-                    <td>Conectado</td>
-                    <td>2025-06-25</td>
+                    <th scope="row">{{ vehicleDataDetails.id }}</th>
+                    <td>{{ vehicleDataDetails.odometro }} km</td>
+                    <td>{{ vehicleDataDetails.nivelCombustivel }}%</td>
+                    <td>{{ vehicleDataDetails.status }}</td>
+                    <td>{{ vehicleDataDetails.lat }}</td>
+                    <td>{{ vehicleDataDetails.long }}</td>
                   </tr>
                 </tbody>
               </table>
+              <!-- Mensagem se não houver dados de detalhes -->
+              <div *ngIf="!vehicleDataDetails" class="alert alert-info text-center mt-3">
+                Digite um código VIN para ver os detalhes do veículo.
+              </div>
             </div>
           </div>
         </div>

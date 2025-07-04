@@ -7,19 +7,24 @@
   min-height: 100vh; /* Ocupa no mínimo 100% da altura da viewport */
   width: 100vw; /* Ocupa 100% da largura da viewport */
 
-  background-color: #f8f9fa; /* Um fundo claro para a página, sem imagem */
+  /* --- ADIÇÕES PARA A IMAGEM DE FUNDO --- */
+  background-image: url('/assets/imagens/ford-nald-3.jpg'); /* Caminho para sua imagem de fundo */
+  background-size: cover; /* Garante que a imagem cubra toda a área */
+  background-position: center center; /* Centraliza a imagem */
+  background-repeat: no-repeat; /* Evita que a imagem se repita */
+  /* --- FIM DAS ADIÇÕES --- */
 
   padding: 20px;
   box-sizing: border-box; /* Inclui padding e border na largura/altura total */
 }
 
 /* Estilo para o container do formulário */
-.container {
+.card { /* Mudei de .container para .card para ser mais específico com seu HTML */
   background-color: rgba(255, 255, 255, 0.95); /* Fundo branco semi-transparente mais opaco */
   padding: 30px; /* Espaçamento interno */
   border-radius: 10px; /* Cantos arredondados */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra mais visível para destacar */
-  max-width: 400px; /* Largura máxima do formulário para não esticar demais */
+  max-width: 550px; /* --- AQUI: Aumentei a largura máxima do formulário --- */
   width: 100%; /* Garante que ele ocupe 100% da largura disponível até o max-width */
   z-index: 1; /* Garante que o formulário fique acima de outros elementos */
 }

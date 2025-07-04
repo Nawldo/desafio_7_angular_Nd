@@ -1,30 +1,46 @@
-    // src/app/shared/vehicle.service.ts
-    import { Injectable } from '@angular/core';
-    import { HttpClient } from '@angular/common/http';
-    import { Observable } from 'rxjs';
-    // ATENÇÃO: Mudei o caminho para usar o alias definido em tsconfig.json
-    import { VeiculosAPI, Veiculo } from '@models/veiculo.model'; // Use o alias @models
+// src/app/shared/vehicle.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+// Remova a importação de VeiculosAPI, pois ela não existe mais.
+// Importe apenas Veiculo e VehicleData.
+import { Veiculo, VehicleData } from '@models/veiculo.model'; // Use o alias @models
 
-    @Injectable({
-      providedIn: 'root'
-    })
-    export class VehicleService {
-      private apiUrl = 'http://localhost:3000';
+@Injectable({
+  providedIn: 'root'
+})
+export class VehicleService {
+  private apiUrl = 'http://localhost:3000'; // URL base da sua API
 
-      constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-      getVehicles(modelName?: string): Observable<VeiculosAPI> {
-        const url = `${this.apiUrl}/vehicle`;
-        return this.http.get<VeiculosAPI>(url);
-      }
+  /**
+   * @method getVehicles
+   * @description
+   * Busca a lista completa de veículos da API.
+   * A API retorna um array de objetos Veiculo diretamente na rota /vehicles (plural).
+   */
+  getVehicles(): Observable<Veiculo[]> {
+    const url = `${this.apiUrl}/vehicles`; // Sua API usa /vehicles (plural)
+    return this.http.get<Veiculo[]>(url); // Espera um array de Veiculo
+  }
 
-      getVehicleData(code: string): Observable<any> {
-        const url = `${this.apiUrl}/vehicleData`;
-        return this.http.get<any>(url);
-      }
+  /**
+   * @method getVehicleDataByVin
+   * @description
+   * Busca dados detalhados de um veículo pelo seu VIN.
+   * A API espera um POST para /vehicleData e o VIN no corpo da requisição.
+   * @param vin O VIN (Vehicle Identification Number) do veículo.
+   */
+  getVehicleDataByVin(vin: string): Observable<VehicleData> { // Retorna um único VehicleData
+    const url = `${this.apiUrl}/vehicleData`;
+    // Sua API espera um POST com o VIN no corpo da requisição
+    return this.http.post<VehicleData>(url, { vin: vin });
+  }
 
-      searchVehiclesByModel(modelName: string): Observable<VeiculosAPI> {
-        return this.http.get<VeiculosAPI>(`${this.apiUrl}/vehicle`);
-      }
-    }
-    
+  // O método searchVehiclesByModel não é mais necessário aqui,
+  // pois a filtragem por nome do modelo é feita no DashboardComponent após
+  // a chamada a getVehicles().
+  // Se você precisar de uma busca específica no backend no futuro,
+  // este seria o lugar para implementá-la.
+}

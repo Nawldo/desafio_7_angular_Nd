@@ -7,7 +7,15 @@
   min-height: 100vh; /* Garante que ocupa a altura total da tela */
   width: 100vw; /* Ocupa 100% da largura da viewport */
 
-  background-color: #e9ecef; /* Um fundo cinza claro para a Home */
+  /* --- ADIÇÕES PARA A IMAGEM DE FUNDO --- */
+  background-image: url('/assets/imagens/ford-nald-2.jpg'); /* Caminho para sua imagem de fundo */
+  background-size: cover; /* Garante que a imagem cubra toda a área */
+  background-position: center center; /* Centraliza a imagem */
+  background-repeat: no-repeat; /* Evita que a imagem se repita */
+  /* Opcional: Adicione um overlay escuro para melhorar a legibilidade do texto */
+  background-blend-mode: overlay; /* Mistura a imagem com a cor de fundo */
+  background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo escura para o overlay */
+  /* --- FIM DAS ADIÇÕES --- */
 
   padding: 20px;
   box-sizing: border-box;
@@ -20,6 +28,7 @@
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   text-align: center;
+  z-index: 1; /* Garante que o cartão fique acima da imagem de fundo */
 }
 
 .card-body {

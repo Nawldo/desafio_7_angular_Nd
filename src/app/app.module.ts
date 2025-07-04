@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { DashboardModule } from './dashboard/dashboard.module';
+import { HomeModule } from './home/home.module';
+import { LoginModule } from './login/login.module';
 
 
 @NgModule({
@@ -18,8 +20,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     AppRoutingModule,
     HttpClientModule,
     DashboardModule,
-    // HomeModule,
-    // LoginModule,
+    HomeModule,
+    LoginModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
