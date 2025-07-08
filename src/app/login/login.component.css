@@ -1,53 +1,76 @@
 /* Estilos para a página de login */
 :host {
-  display: flex; /* Habilita o flexbox para centralizar */
-  flex-direction: column; /* Organiza os itens em coluna */
-  align-items: center; /* Centraliza horizontalmente */
-  justify-content: center; /* Centraliza verticalmente */
-  min-height: 100vh; /* Ocupa no mínimo 100% da altura da viewport */
-  width: 100vw; /* Ocupa 100% da largura da viewport */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
 
-  /* --- ADIÇÕES PARA A IMAGEM DE FUNDO --- */
-  background-image: url('/assets/imagens/ford-nald-3.jpg'); /* Caminho para sua imagem de fundo */
-  background-size: cover; /* Garante que a imagem cubra toda a área */
-  background-position: center center; /* Centraliza a imagem */
-  background-repeat: no-repeat; /* Evita que a imagem se repita */
-  /* --- FIM DAS ADIÇÕES --- */
+  background-image: url('/assets/imagens/ford-nald-3.jpg'); /* Caminho para imagem de fundo */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay; /* Mistura a imagem com a cor de fundo */
+  background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo escura para o overlay */
 
   padding: 20px;
-  box-sizing: border-box; /* Inclui padding e border na largura/altura total */
+  box-sizing: border-bclox;
 }
 
 /* Estilo para o container do formulário */
-.card { /* Mudei de .container para .card para ser mais específico com seu HTML */
-  background-color: rgba(255, 255, 255, 0.95); /* Fundo branco semi-transparente mais opaco */
-  padding: 30px; /* Espaçamento interno */
-  border-radius: 10px; /* Cantos arredondados */
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra mais visível para destacar */
-  max-width: 550px; /* --- AQUI: Aumentei a largura máxima do formulário --- */
-  width: 100%; /* Garante que ele ocupe 100% da largura disponível até o max-width */
-  z-index: 1; /* Garante que o formulário fique acima de outros elementos */
+.card {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  max-width: 550px; /* Largura máxima do formulário */
+  width: 100%;
+  z-index: 1;
 }
 
-/* Estilos específicos para o cabeçalho do cartão */
+/* --- NOVOS ESTILOS ADICIONADOS AQUI --- */
+
+/* Estilo para a imagem da logo */
+.login-logo {
+  max-width: 150px; /* Ajuste o tamanho máximo da logo */
+  height: auto; /* Mantém a proporção */
+  display: block; /* Garante que a imagem se comporte como um bloco para centralização */
+  margin: 0 auto 15px auto; /* Centraliza a logo e adiciona margem inferior */
+}
+
+/* Estilos para o cabeçalho do cartão (ajustado para a nova estrutura com logo) */
 .card-header {
-  background-color: #007bff; /* Cor primária do Bootstrap (azul) */
-  color: white; /* Texto branco */
-  border-radius: 5px 5px 0 0; /* Cantos superiores arredondados */
-  padding: 15px; /* Espaçamento interno */
+  background-color: transparent; /* Fundo transparente para a logo aparecer melhor */
+  color: #007bff; /* Cor do texto (Bem-vindo) */
+  border-bottom: none; /* Remove a linha de baixo do cabeçalho se não quiser */
+  padding: 0; /* Remove padding padrão para controlar com a logo */
   margin-bottom: 15px; /* Margem abaixo do cabeçalho */
 }
 
-/* Estilos para o corpo do cartão */
-.card-body {
-  padding: 20px; /* Espaçamento interno */
+.card-header h3 {
+    margin-top: 10px; /* Espaçamento entre a logo e o texto "Bem-vindo" */
+    font-size: 1.5rem; /* Ajuste o tamanho da fonte se necessário */
+    color: #343a40; /* Cor do texto "Bem-vindo" */
 }
 
-/* Ajustes para elementos do formulário (opcional, mas melhora o visual) */
+/* Estilo para o corpo do cartão */
+.card-body {
+  padding: 20px;
+}
+
+/* Ajustes para elementos do formulário */
 .form-label {
-    font-weight: bold; /* Deixa os rótulos em negrito */
+    font-weight: bold;
 }
 
 .alert {
-    text-align: center; /* Centraliza mensagens de erro/sucesso */
+    text-align: center;
+}
+
+/* Estilo para o checkbox "Logar automaticamente" */
+.form-check {
+    text-align: left; /* Alinha o checkbox à esquerda dentro do seu container */
+    margin-top: 15px; /* Espaçamento acima do checkbox */
+    margin-bottom: 20px; /* Espaçamento abaixo do checkbox */
 }
