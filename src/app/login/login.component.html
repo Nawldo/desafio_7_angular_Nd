@@ -1,26 +1,37 @@
 <div class="login-page-wrapper">
-  <div class="card">
-    <div class="card-header text-center">
-      <h3>Login - FORD</h3>
-    </div>
-    <div class="card-body">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div *ngIf="errorMessage" class="alert alert-danger mb-3">
-          {{ errorMessage }}
-        </div>
+  <div class="container-login"> <!-- Este div será o container principal do formulário -->
+    <div class="card login-card"> <!-- O formulário estará dentro deste card -->
+      <div class="card-header text-center">
+        <img src="assets/imagens/ford.png" alt="Logo Ford" class="login-logo mb-3">
+        <h3 class="card-title">Boas-vindas!</h3>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+            {{ errorMessage }}
+          </div>
 
-        <div class="mb-3">
-          <label for="username" class="form-label">Usuário:</label>
-          <input type="text" id="username" formControlName="username" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Senha:</label>
-          <input type="password" id="password" formControlName="password" class="form-control" required>
-        </div>
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Entrar</button>
-        </div>
-      </form>
+          <div class="mb-3">
+            <label for="username" class="form-label">Usuário:</label>
+            <input type="text" id="username" formControlName="username" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Senha:</label>
+            <input type="password" id="password" formControlName="password" class="form-control" required>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="rememberMe" formControlName="rememberMe">
+            <label class="form-check-label" for="rememberMe">
+              Logar automaticamente
+            </label>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Entrar</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
